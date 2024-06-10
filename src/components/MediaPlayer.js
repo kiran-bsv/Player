@@ -70,6 +70,7 @@ const MediaPlayer = () => {
 
 
   const handleKeyPress = (event) => {
+    let newCurrentTime;
     switch (event.key) {
       case ' ':
         handlePlayPause();
@@ -81,10 +82,18 @@ const MediaPlayer = () => {
         dispatch(setVolume(Math.max(media.volume - 0.05, 0))); // Decrease volume
         break;
       case 'ArrowRight':
-        dispatch(setMediaCurrentTime(Math.min(media.currentTime + 10, media.duration))); // 10-second forward
+        newCurrentTime = Math.min(media.currentTime + 10, duration);
+        console.log('Dispatching setMediaCurrentTime with:', newCurrentTime);
+        dispatch(setMediaCurrentTime(newCurrentTime)); // 10-second forward
         break;
+        case 'q':
+        case 'Q':
+          newCurrentTime = Math.min(media.currentTime + 4, duration);
+          console.log('Dispatching setMediaCurrentTime with:', newCurrentTime);
+          dispatch(setMediaCurrentTime(newCurrentTime)); // 10-second forward
+          break;
       case 'ArrowLeft':
-        dispatch(setMediaCurrentTime(Math.max(media.currentTime - 10, 0))); // 10-second backward
+        dispatch(setMediaCurrentTime(Math.max(media.currentTime -= 10, 0))); // 10-second backward
         break;
       case 'm':
       case 'M':
@@ -111,9 +120,13 @@ const MediaPlayer = () => {
         break;
       default:
         break;
+
     }
   };
 
+  const handleSeek = (seconds) => {
+    dispatch(setMediaCurrentTime(seconds));
+  };
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);
@@ -133,7 +146,7 @@ const MediaPlayer = () => {
         height="500px"
         onProgress={handleProgress}
         onDuration={handleDuration}
-        seekTo={media.currentTime}
+        // onSeek={handleSeek}
       />
       <MediaControlButtons
         onPlayPause={handlePlayPause}

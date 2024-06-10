@@ -13,7 +13,7 @@ const initialState = {
       volume: 0.5,
       playbackSpeed: 1,
       duration: 0,
-      currentTime: 10,
+      currentTime: 0,
       fullScreen: false,
       minimized: false,
     },
